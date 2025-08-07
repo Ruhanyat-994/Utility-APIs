@@ -35,10 +35,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-     - name: Build & Push ${{ matrix.api }} image
-       uses: docker/build-push-action@v6
-       with: 
-         context: ./${{ matrix.api }}
-         file: ./${{ matrix.api }}/Dockerfile
-         push: true
-         tags: ${{ secrets.DOCKERHUB_USERNAME }}/utility-${{ matrix.api | toLower }}:latest
+      - name: Build & Push ${{ matrix.api }} image
+        uses: docker/build-push-action@v6
+        with: 
+          context: ./${{ matrix.api }}
+          file: ./${{ matrix.api }}/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/utility-${{ matrix.api | toLower }}:latest
