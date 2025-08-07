@@ -1,4 +1,4 @@
-name: Build & Deploy Utility Apis
+name: Build & Deploy Utility APIs
 
 on:
   push:
@@ -7,13 +7,13 @@ on:
 
 jobs:
   build-deploy:
-    name: Build & Deploy Utility Apis
+    name: Build & Deploy Utility APIs
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         api:
-          - Quotes-Generation
+          - quotes-generation  # lowercase here
 
     steps:
       - name: Checkout code
@@ -35,10 +35,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-      - name: Build & Push ${{ matrix.api }} image
+      - name: Build & Push Docker image
         uses: docker/build-push-action@v6
         with: 
           context: ./${{ matrix.api }}
           file: ./${{ matrix.api }}/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/utility-${{ matrix.api | toLower }}:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/utility-${{ matrix.api }}:latest
+
