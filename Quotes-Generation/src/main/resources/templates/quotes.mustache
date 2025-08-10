@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Quran Quotes</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #4b006e, #8e2de2);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin-top: 50px;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        button {
+            background-color: #ffdd57;
+            color: #4b006e;
+            font-size: 1.2em;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 40px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        button:hover {
+            background-color: #ffe680;
+        }
+        #quote-box {
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.15);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+    </style>
+    <script>
+        async function getQuote() {
+            try {
+                const response = await fetch('/quote');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                document.getElementById('quote-text').innerText = `"${data.Ayat}"`;
+                document.getElementById('quote-source').innerText = `— ${data.Quran}`;
+            } catch (error) {
+                document.getElementById('quote-text').innerText = 'Failed to load quote.';
+                document.getElementById('quote-source').innerText = '';
+                console.error('Error fetching quote:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1> Random Quran Quotes</h1>
+    <button onclick="getQuote()"> Show me a Quote</button>
+    <div id="quote-box">
+        <p id="quote-text">Click the button to get inspired.</p>
+        <p id="quote-source"></p>
+    </div>
+</body>
+</html>
