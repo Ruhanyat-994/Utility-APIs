@@ -2,23 +2,26 @@
 <html>
 <head>
     <title>Palindrome Checker</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Check if a word is a palindrome</h1>
-    <form action="/" method="get">
-        <input type="text" name="keyword" placeholder="Enter keyword" value="{{keyword}}" />
-        <button type="submit">Check</button>
-    </form>
+    <div class="container">
+        <h1>🔄 Palindrome Checker</h1>
+        <p class="subtitle">Check if your word is a palindrome in style 🚀</p>
 
-    {{#result}}
-        <p style="font-size: 1.2em; margin-top: 20px;">
-            {{#isPalindrome}}
-                🎉 Congratulations! "{{keyword}}" is a palindrome!
-            {{/isPalindrome}}
-            {{^isPalindrome}}
-                😞 Sorry! "{{keyword}}" is NOT a palindrome.
-            {{/isPalindrome}}
-        </p>
-    {{/result}}
+        <form action="/" method="get" class="checker-form">
+            <input type="text" name="keyword" placeholder="Enter keyword" value="{{keyword}}" required />
+            <button type="submit">Check</button>
+        </form>
+
+        {{#result}}
+            <p class="result {{#isPalindrome}}success{{/isPalindrome}}{{^isPalindrome}}error{{/isPalindrome}}">
+                {{#isPalindrome}}🎉 Congratulations! "{{keyword}}" is a palindrome!{{/isPalindrome}}
+                {{^isPalindrome}}😞 Sorry! "{{keyword}}" is NOT a palindrome.{{/isPalindrome}}
+            </p>
+        {{/result}}
+    </div>
+
+    <script src="/js/script.js"></script>
 </body>
 </html>
