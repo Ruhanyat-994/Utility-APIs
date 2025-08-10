@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Palindrome Checker</title>
+</head>
+<body>
+    <h1>Check if a word is a palindrome</h1>
+    <form action="/" method="get">
+        <input type="text" name="keyword" placeholder="Enter keyword" value="{{keyword}}" />
+        <button type="submit">Check</button>
+    </form>
+
+    {{#result}}
+        <p style="font-size: 1.2em; margin-top: 20px;">
+            {{#isPalindrome}}
+                🎉 Congratulations! "{{keyword}}" is a palindrome!
+            {{/isPalindrome}}
+            {{^isPalindrome}}
+                😞 Sorry! "{{keyword}}" is NOT a palindrome.
+            {{/isPalindrome}}
+        </p>
+    {{/result}}
+</body>
+</html>

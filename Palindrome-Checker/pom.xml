@@ -8,11 +8,11 @@
 		<version>3.5.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.quotes</groupId>
-	<artifactId>quotes-generation</artifactId>
+	<groupId>com.palindromeChecker</groupId>
+	<artifactId>Palindrome-Checker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>QuotesApi</name>
-	<description>This is a random quotes generator</description>
+	<name>palindromeChecker</name>
+	<description>This is an Api for checking if a String is palindrome or not!</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -45,6 +45,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mustache</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
