@@ -5,7 +5,9 @@ import com.linkshortslinks.URL_SHORTER.repository.UrlRepository;
 import jakarta.servlet.http.PushBuilder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.security.SecureRandom;
+import java.util.Optional;
 
 @Service
 public class UrlShortnerService {
@@ -29,6 +31,7 @@ public class UrlShortnerService {
         return stringBuilder.toString();
     }
 
+    // Create short Url
     public Url createShortUrl(String longUrl) {
         String shortCode ;
         do {
@@ -41,5 +44,19 @@ public class UrlShortnerService {
         return urlRepository.save(url);
 
     }
+
+    // Retrieve Original URL
+    public Optional<Url> getOriginalUrl(String shortCode) {
+        Optional<Url> shortendUrl = urlRepository.findByShortCode(shortCode);
+        shortendUrl.ifPresent(url -> {
+            url.setAccessCount(url.getAccessCount() + 1);
+            urlRepository.save(url);
+        });
+        return shortendUrl;
+    }
+
+
+
+
 
 }
