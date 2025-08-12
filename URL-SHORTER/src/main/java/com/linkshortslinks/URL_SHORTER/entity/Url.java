@@ -26,7 +26,7 @@ public class Url {
     @Column(name="createdAt" , nullable = false,updatable = false)
     private Instant created;
     @Column(name = "updatedAt", nullable = false)
-    private Instant updated;
+    private Instant updatedAt;
     @Column(name = "access_count", nullable = false)
     private int accessCount;
 
@@ -35,11 +35,11 @@ public class Url {
     protected void onCreate() {
         Instant now = Instant.now();
         created = now;
-        updated = now;
+        updatedAt = now;
         accessCount = 0;
     }
     @PreUpdate
     protected void onUpdate() {
-        updated = Instant.now();
+        updatedAt = Instant.now();
     }
 }

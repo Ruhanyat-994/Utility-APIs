@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
 import java.security.SecureRandom;
+import java.time.Instant;
 import java.util.Optional;
 
 @Service
@@ -40,6 +41,7 @@ public class UrlShortnerService {
         Url url = new Url();
         url.setLongUrl(longUrl);
         url.setShortCode(shortCode);
+        url.setAccessCount(0);
 
         return urlRepository.save(url);
 
@@ -55,6 +57,29 @@ public class UrlShortnerService {
         return shortendUrl;
     }
 
+    // Update short URL
+    public Optional<Url> updateShortUrl(String longUrl, String shortCode) {
+        Optional<Url> shortendUrl = urlRepository.findByShortCode(shortCode);
+        shortendUrl.ifPresent( url -> {
+            url.setLongUrl(longUrl);
+            url.setUpdatedAt(Instant.now());
+            urlRepository.save(url);
+        });
+        return shortendUrl;
+
+    }
+
+    // Delete Short Url
+    public boolean deleteShortUrl(String shortCode) {
+        Optional<Url> shortendUrl = urlRepository.findByShortCode(shortCode);
+        shortendUrl.ifPresent(urlRepository::delete);
+        return shortendUrl.isPresent();
+    }
+
+    // Get URL Statistics
+    public Optional<Url> getUrlStats(String shortCode){
+        return urlRepository.findByShortCode(shortCode);
+    }
 
 
 
