@@ -82,6 +82,14 @@ public class UrlShortnerService {
     }
 
 
+    // increment accesscount
 
+    public void incrementAccessCount(String shortCode){
+        urlRepository.findByShortCode(shortCode).ifPresent(url -> {
+            url.setAccessCount(url.getAccessCount() +1);
+            urlRepository.save(url);
+        });
+
+    }
 
 }
