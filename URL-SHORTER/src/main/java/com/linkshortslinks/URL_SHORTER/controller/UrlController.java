@@ -34,20 +34,7 @@ public class UrlController {
             return ResponseEntity.notFound().build();
         }
     }
-    @GetMapping("/{shortCode}")
-    public ResponseEntity<?> redirectToOriginalUrl(@PathVariable String shortCode){
-        Optional<Url> shortendUrl = urlShortnerService.getOriginalUrl(shortCode);
-        if(shortendUrl.isPresent()){
-            urlShortnerService.incrementAccessCount(shortCode);
-            Url url = shortendUrl.get();
-            return ResponseEntity.status(HttpStatus.FOUND).
-                    header("Location",url.getLongUrl()).
-                    build();
-        }else {
-            return ResponseEntity.notFound().build();
-        }
 
-    }
     // Update Short Url
     @PutMapping("/{shortCode}")
     public ResponseEntity<?> updateUrl(@PathVariable String shortCode, @RequestBody Url url) {

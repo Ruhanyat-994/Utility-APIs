@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shortened Link</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/copy.js" defer></script>
+</head>
+<body>
+<div class="grid-background"></div>
+<div class="container">
+    <h1 class="title">Your Shortened Link</h1>
+    <div class="link-box">
+        <input type="text" id="shortUrl" value="{{shortUrl}}" readonly>
+        <button onclick="copyToClipboard()" class="btn">Copy</button>
+    </div>
+    <p id="copyMessage" class="message"></p>
+    <a href="/" class="btn back-btn">Shorten Another</a>
+</div>
+</body>
+</html>
