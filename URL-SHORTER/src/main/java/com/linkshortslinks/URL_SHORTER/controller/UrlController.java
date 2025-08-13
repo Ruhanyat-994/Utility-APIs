@@ -3,8 +3,10 @@ package com.linkshortslinks.URL_SHORTER.controller;
 import com.linkshortslinks.URL_SHORTER.entity.Url;
 import com.linkshortslinks.URL_SHORTER.repository.UrlRepository;
 import com.linkshortslinks.URL_SHORTER.service.UrlShortnerService;
-import jakarta.servlet.http.HttpServletRequest;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,29 +21,33 @@ public class UrlController {
     private UrlRepository urlRepository;
 
     @PostMapping
-    public ResponseEntity<Url> shortenUrl(@RequestBody Url url, HttpServletRequest request) {
-        Url createdUrl = urlShortnerService.createShortUrl(url.getLongUrl());
-
-        // Build full short URL with domain
-        String baseUrl = request.getScheme() + "://" + request.getServerName() +
-                ((request.getServerPort() != 80 || request.getServerPort() == 443) ? "" : ":"+
-                        request.getServerPort());
-
-        // Set full short url in the response object
-        createdUrl.setShortCode(baseUrl+"/"+ createdUrl.getShortCode());
-        return ResponseEntity.ok(createdUrl);
+    public ResponseEntity<Url> shortenUrl(@RequestBody Url url) {
+        return  ResponseEntity.ok(urlShortnerService.createShortUrl(url.getLongUrl()));
+    }
+    // get Original Url
+    @GetMapping("/get/{shortCode}")
+    public ResponseEntity<?> getOriginalUrl(@PathVariable String shortCode) {
+       Optional<Url> urlOptional = urlShortnerService.getOriginalUrl(shortCode);
+        if (urlOptional.isPresent()) {
+            return ResponseEntity.ok(urlOptional.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
     @GetMapping("/{shortCode}")
-    public ResponseEntity<?> getOriginalUrl(@PathVariable String shortCode) {
-       Optional<Url> shortendUrl = urlShortnerService.getOriginalUrl(shortCode);
-       if (shortendUrl.isPresent()){
-           urlShortnerService.incrementAccessCount(shortCode);
-           return ResponseEntity.ok(shortendUrl.get());
-       }else{
-           return ResponseEntity.notFound().build();
-       }
-    }
+    public ResponseEntity<?> redirectToOriginalUrl(@PathVariable String shortCode){
+        Optional<Url> shortendUrl = urlShortnerService.getOriginalUrl(shortCode);
+        if(shortendUrl.isPresent()){
+            urlShortnerService.incrementAccessCount(shortCode);
+            Url url = shortendUrl.get();
+            return ResponseEntity.status(HttpStatus.FOUND).
+                    header("Location",url.getLongUrl()).
+                    build();
+        }else {
+            return ResponseEntity.notFound().build();
+        }
 
+    }
     // Update Short Url
     @PutMapping("/{shortCode}")
     public ResponseEntity<?> updateUrl(@PathVariable String shortCode, @RequestBody Url url) {

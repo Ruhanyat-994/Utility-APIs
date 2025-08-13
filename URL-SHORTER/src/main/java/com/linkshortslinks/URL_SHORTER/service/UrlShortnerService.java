@@ -2,10 +2,8 @@ package com.linkshortslinks.URL_SHORTER.service;
 
 import com.linkshortslinks.URL_SHORTER.entity.Url;
 import com.linkshortslinks.URL_SHORTER.repository.UrlRepository;
-import jakarta.servlet.http.PushBuilder;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Optional;
@@ -49,13 +47,10 @@ public class UrlShortnerService {
 
     // Retrieve Original URL
     public Optional<Url> getOriginalUrl(String shortCode) {
-        Optional<Url> shortendUrl = urlRepository.findByShortCode(shortCode);
-        shortendUrl.ifPresent(url -> {
-            url.setAccessCount(url.getAccessCount() + 1);
-            urlRepository.save(url);
-        });
-        return shortendUrl;
+        return urlRepository.findByShortCode(shortCode);
+
     }
+
 
     // Update short URL
     public Optional<Url> updateShortUrl(String longUrl, String shortCode) {
