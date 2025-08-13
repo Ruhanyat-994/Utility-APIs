@@ -39,5 +39,7 @@ public class PageController {
     public String contactPage() {
         return "contact";
     }
+
+
 }
 
