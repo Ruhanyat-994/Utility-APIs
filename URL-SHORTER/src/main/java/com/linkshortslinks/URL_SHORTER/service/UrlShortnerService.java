@@ -1,16 +1,23 @@
 package com.linkshortslinks.URL_SHORTER.service;
 
+import com.linkshortslinks.URL_SHORTER.entity.ClickHistory;
 import com.linkshortslinks.URL_SHORTER.entity.Url;
+import com.linkshortslinks.URL_SHORTER.repository.ClickHistoryRepo;
 import com.linkshortslinks.URL_SHORTER.repository.UrlRepository;
+import org.hibernate.annotations.NaturalId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UrlShortnerService {
 
+    @Autowired
+    private ClickHistoryRepo clickHistoryRepo;
     private final UrlRepository urlRepository;
     public UrlShortnerService(UrlRepository urlRepository) {
         this.urlRepository = urlRepository;
@@ -83,8 +90,19 @@ public class UrlShortnerService {
         urlRepository.findByShortCode(shortCode).ifPresent(url -> {
             url.setAccessCount(url.getAccessCount() +1);
             urlRepository.save(url);
+
+            ClickHistory clickHistory = new ClickHistory();
+            clickHistory.setUrl(url);
+            clickHistoryRepo.save(clickHistory);
+
         });
 
+    }
+
+    public List<ClickHistory> getClickHistory(String shortCode){
+        return urlRepository.findByShortCode(shortCode).map(
+                url -> clickHistoryRepo.findByUrlIdOrderByClickedAtAsc(url.getId())).orElse(
+                        List.of());
     }
 
 }

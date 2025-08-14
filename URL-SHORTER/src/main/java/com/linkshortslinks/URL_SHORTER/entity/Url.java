@@ -1,13 +1,17 @@
 package com.linkshortslinks.URL_SHORTER.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.ListJoin;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "shortend_url")
@@ -29,6 +33,10 @@ public class Url {
     private Instant updatedAt;
     @Column(name = "access_count", nullable = false)
     private int accessCount;
+
+    @OneToMany(mappedBy = "url", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<ClickHistory> clickHistories = new ArrayList<>();
 
 
     @PrePersist
