@@ -1,45 +1,33 @@
 package com.linkshortslinks.URL_SHORTER.controller;
 
-import com.linkshortslinks.URL_SHORTER.entity.Url;
-import com.linkshortslinks.URL_SHORTER.service.UrlShortnerService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import java.util.Collections;
 
 @Controller
 public class PageController {
 
-    @Autowired
-    private UrlShortnerService urlShortnerService;
+    // Provide safe defaults so Mustache never errors on missing fields
+    @ModelAttribute
+    public void addDefaults(Model model) {
+        if (!model.containsAttribute("shortUrl"))   model.addAttribute("shortUrl", "");
+        if (!model.containsAttribute("shortCode"))  model.addAttribute("shortCode", "");
+        if (!model.containsAttribute("longUrl"))    model.addAttribute("longUrl", "");
+        if (!model.containsAttribute("clickCount")) model.addAttribute("clickCount", 0);
+        if (!model.containsAttribute("timestamps")) model.addAttribute("timestamps", Collections.emptyList());
+    }
 
     @GetMapping("/")
     public String homePage() {
         return "index";
     }
 
-    @PostMapping("/shorten")
-    public String shortenUrl(@RequestParam("longUrl") String longUrl,
-                             HttpServletRequest request,
-                             Model model) {
-        Url createdUrl = urlShortnerService.createShortUrl(longUrl);
-
-        String baseUrl = request.getScheme() + "://" + request.getServerName() +
-                (request.getServerPort() == 80 || request.getServerPort() == 443 ? "" : ":" + request.getServerPort());
-
-        String fullShortUrl = baseUrl + "/" + createdUrl.getShortCode();
-        model.addAttribute("shortUrl", fullShortUrl);
-
-        return "result";
+    @GetMapping("/stats")
+    public String statsPage() {
+        return "stats";
     }
-
-
-    @GetMapping("/contact")
-    public String contactPage() {
-        return "contact";
-    }
-
-
 }
-

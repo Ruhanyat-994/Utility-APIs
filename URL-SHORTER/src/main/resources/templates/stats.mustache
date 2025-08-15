@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>URL Shortener — Stats</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  {{> base}}
+
+  <main class="page page-center fade-in">
+    <section class="card glass stack-md">
+      <header class="stack-sm">
+        <h2 class="headline-sm">Link Stats</h2>
+        <p class="muted">Track clicks and view historical access timestamps.</p>
+      </header>
+
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-value">{{clickCount}}</div>
+          <div class="stat-label">Total Clicks</div>
+        </div>
+      </div>
+
+      <div class="stack-sm">
+        <h3 class="headline-xs">Click Timestamps</h3>
+        <ul id="timestampList" class="timestamp-list">
+          {{#timestamps}}
+            <li class="timestamp-item">{{.}}</li>
+          {{/timestamps}}
+          {{^timestamps}}
+            <li class="timestamp-item muted">No clicks recorded yet.</li>
+          {{/timestamps}}
+        </ul>
+      </div>
+
+      <div class="stack-sm">
+        <label for="statShortCode" class="label">Lookup by Short Code</label>
+        <div class="input-row">
+          <input id="statShortCode" class="input" type="text" placeholder="e.g. abc123"/>
+          <button id="loadStatsBtn" class="btn btn-primary">Load Stats</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

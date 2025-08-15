@@ -1,18 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title><!-- WEBSITE NAME HERE --></title> <!-- Change here -->
-    <link rel="stylesheet" href="/css/style.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>URL Shortener — Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body>
-<div class="grid-background"></div>
-<div class="container">
-    <h1 class="title">Paste Your Link</h1>
-    <form action="/shorten" method="post" class="shorten-form">
-        <input type="url" name="longUrl" placeholder="Enter your long URL here..." required>
-        <button type="submit" class="btn">Shorten</button>
-    </form>
-</div>
+  {{> base}}
+
+  <main class="page page-center fade-in">
+    <section class="hero">
+      <h1 class="headline">Shrink links. <span class="neon">Supercharge</span> sharing.</h1>
+      <p class="subhead">Paste a long URL below and get a shareable, trackable short link in a blink.</p>
+
+      <div class="card glass stack-md">
+        <div class="input-row">
+          <input id="longUrlInput" class="input" type="url" placeholder="https://your-very-long-url.com/article/123?utm=..." autocomplete="off"/>
+          <button id="shortenBtn" class="btn btn-primary">Shorten URL</button>
+        </div>
+
+        <div id="result" class="result hidden">
+          <label class="label">Your short URL</label>
+          <div class="result-row">
+            <input id="shortUrlOutput" class="input input-readonly" type="text" value="{{shortUrl}}" readonly/>
+            <button id="copyBtn" class="btn btn-ghost">Copy</button>
+          </div>
+          <p class="tiny help">Share this: <a id="shortUrlAnchor" href="{{shortUrl}}" target="_blank" rel="noopener">{{shortUrl}}</a></p>
+        </div>
+      </div>
+
+      <p class="tiny hint">Tip: Your short links look like <code>http://localhost:8080/{{shortCode}}</code></p>
+    </section>
+  </main>
+
+  <!-- Toasts / notifications -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="/js/main.js"></script>
 </body>
 </html>
